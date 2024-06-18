@@ -1,7 +1,9 @@
-import { cart, addToCart } from '../data/cart.js';
+import { cart, addToCart, calculateCartQunatity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
+
+// generating HTML for the amazon page
 let productsHTML = ``;
 
 products.forEach(product => {
@@ -57,16 +59,18 @@ products.forEach(product => {
   `;
 });
 
+// inserting the generated code in the HTML via DOM
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
+// function for updating the quantity in the right-top corner of the amazon page
 function updateCartQuantity() {
-  const cartQuantity = cart.reduce((acc, cartItem) => {
-    return acc + cartItem.quantity;
-  }, 0);
+  const cartQuantity = calculateCartQunatity();
 
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
+updateCartQuantity();
 
+// function for showing and hiding the "Added" message when clicking on the "Add to cart" button of the specified product
 function showAndHideAddedMessage(productId, timeoutId) {
   const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
   addedMessage.classList.add("added-to-cart-message");
@@ -77,6 +81,7 @@ function showAndHideAddedMessage(productId, timeoutId) {
   }, 2000);
 }
 
+// event listener for the buttons "Add to cart"
 document.querySelectorAll(".js-add-to-cart").forEach(button => {
   let timeoutId = {current: null};
   button.addEventListener('click', () => {

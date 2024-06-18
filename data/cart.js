@@ -1,3 +1,4 @@
+// loading the cart from localStorage or giving its default value
 export let cart = JSON.parse(localStorage.getItem("cart")) || [{
   productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
   quantity: 2
@@ -6,10 +7,12 @@ export let cart = JSON.parse(localStorage.getItem("cart")) || [{
   quantity: 1
 }];
 
+// function for saving the cart in the localStorage
 function saveToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+// function for adding to cart by the selected quantity
 export function addToCart(productId) {
   let matchingItem;
 
@@ -31,7 +34,15 @@ export function addToCart(productId) {
   saveToStorage();
 }
 
+// function for removing from cart
  export function removeFromCart(productId) {
   cart = cart.filter(cartItem => cartItem.productId !== productId);
   saveToStorage();
+}
+
+// functin to calculate the cart quantity
+export function calculateCartQunatity() {
+  return cart.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity;
+  }, 0);
 }
