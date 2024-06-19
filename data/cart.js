@@ -44,7 +44,7 @@ export function addToCart(productId) {
 }
 
 // function to calculate the cart quantity
-export function calculateCartQunatity() {
+export function calculateCartQuantity() {
   return cart.reduce((acc, cartItem) => {
     return acc + cartItem.quantity;
   }, 0);

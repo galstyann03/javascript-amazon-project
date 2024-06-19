@@ -1,4 +1,4 @@
-import { cart, addToCart, calculateCartQunatity } from '../data/cart.js';
+import { addToCart, calculateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import formatCurrency from './utils/money.js';
 
@@ -64,7 +64,7 @@ document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 // function for updating the quantity in the right-top corner of the amazon page
 function updateCartQuantity() {
-  const cartQuantity = calculateCartQunatity();
+  const cartQuantity = calculateCartQuantity();
 
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
