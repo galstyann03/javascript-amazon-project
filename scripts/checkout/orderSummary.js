@@ -1,8 +1,9 @@
 import { cart, removeFromCart, calculateCartQuantity, updateQuantity, updateDeliveryOption } from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import {products} from "../../data/products.js";
 import formatCurrency from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js"
+import { deliveryOptions } from "../../data/deliveryOptions.js";
+import renderPaymentSummary from "./paymentSummary.js";
 
 // generating HTML for checkout page
 export default function renderOrderSummary() {
@@ -110,6 +111,7 @@ export default function renderOrderSummary() {
       removeFromCart(productId);
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
       updateCartQuantity();
+      renderPaymentSummary();
     });
   });
 
@@ -143,6 +145,7 @@ export default function renderOrderSummary() {
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
 
     updateCartQuantity();
+    renderPaymentSummary();
   }
 
   // event listener for save links

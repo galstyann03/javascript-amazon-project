@@ -1,3 +1,6 @@
+import formatCurrency from "../scripts/utils/money.js";
+import {products} from "./products.js"; 
+
 // loading the cart from localStorage or giving its default value
 export let cart = JSON.parse(localStorage.getItem("cart")) || [{
   productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -68,4 +71,12 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
     }
   });
   saveToStorage();
+}
+
+export function calculateCost() {
+  return formatCurrency(cart.reduce((cost, cartItem) => {
+    const matchingProduct = (products.find(product => product.id === cartItem.productId));
+    cost += cartItem.quantity * matchingProduct.priceCents;
+    return cost;
+  }, 0));
 }
