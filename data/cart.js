@@ -43,17 +43,28 @@ export function addToCart(productId) {
   saveToStorage();
 }
 
-// functin to calculate the cart quantity
+// function to calculate the cart quantity
 export function calculateCartQunatity() {
   return cart.reduce((acc, cartItem) => {
     return acc + cartItem.quantity;
   }, 0);
 }
 
+// function for updating the product quantity to new one 
 export function updateQuantity(productId, newQuantity) {
   cart.forEach(cartItem => {
     if (cartItem.productId === productId) {
       cartItem.quantity = newQuantity;
+    }
+  });
+  saveToStorage();
+}
+
+// function for updating the delivery options in the cart
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  cart.forEach(cartItem => {
+    if (cartItem.productId === productId) {
+      cartItem.deliveryOptionId = deliveryOptionId;
     }
   });
   saveToStorage();
