@@ -160,6 +160,7 @@ export default function renderOrderSummary() {
       const {productId, deliveryOptionId} = elem.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
