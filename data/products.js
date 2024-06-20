@@ -1,3 +1,4 @@
+// function for getting the specified product from the products array
 export function getProduct(productId) {
   return products.find(product => productId === product.id);
 }
