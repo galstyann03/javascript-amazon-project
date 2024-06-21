@@ -1,3 +1,5 @@
+import { validDeliveryOption } from "./deliveryOptions.js";
+
 // loading the cart from localStorage or giving its default value
 export let cart;
 
@@ -20,7 +22,7 @@ function saveToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// function for adding to cart by the selected quantity
+// function for adding to cart by the selected quantity - tested
 export function addToCart(productId) {
   let matchingItem;
 
@@ -43,7 +45,7 @@ export function addToCart(productId) {
   saveToStorage();
 }
 
-// function for removing from cart
+// function for removing from cart - tested
 export function removeFromCart(productId) {
   cart = cart.filter(cartItem => cartItem.productId !== productId);
   saveToStorage();
@@ -66,12 +68,12 @@ export function updateQuantity(productId, newQuantity) {
   saveToStorage();
 }
 
-// function for updating the delivery options in the cart
+// function for updating the delivery options in the cart - tested
 export function updateDeliveryOption(productId, deliveryOptionId) {
-  cart.forEach(cartItem => {
-    if (cartItem.productId === productId) {
-      cartItem.deliveryOptionId = deliveryOptionId;
-    }
-  });
+  const product = cart.find(cartItem => cartItem.productId === productId);
+
+  if (!product || !validDeliveryOption(deliveryOptionId)) return;
+
+  product.deliveryOptionId = deliveryOptionId;
   saveToStorage();
 }

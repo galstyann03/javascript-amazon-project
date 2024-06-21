@@ -38,3 +38,8 @@ export function calculateDeliveryDate(deliveryOption) {
 function isWeekend(date) {
   return date.format("dddd") === "Saturday" || date.format("dddd") === "Sunday";
 }
+
+// function that checks if the deliveryOptionId exist
+export function validDeliveryOption(deliveryOptionId) {
+  return deliveryOptions.some(option => deliveryOptionId === option.id);
+}

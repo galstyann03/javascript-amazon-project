@@ -4,7 +4,7 @@ import formatCurrency from "../utils/money.js";
 import { calculateDeliveryDate, deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js";
 import renderPaymentSummary from "./paymentSummary.js";
 
-// generating HTML for checkout page
+// generating HTML for checkout page - tested
 export default function renderOrderSummary() {
   let cartSummaryHTML = ``;
 
@@ -27,10 +27,10 @@ export default function renderOrderSummary() {
             src=${matchingProduct.image}>
 
           <div class="cart-item-details">
-            <div class="product-name">
+            <div class="product-name js-product-name-${matchingProduct.id}">
               ${matchingProduct.name}
             </div>
-            <div class="product-price">
+            <div class="product-price js-product-price-${matchingProduct.id}">
               $${formatCurrency(matchingProduct.priceCents)}
             </div>
             <div class="product-quantity js-product-quantity-${matchingProduct.id}">
@@ -70,9 +70,9 @@ export default function renderOrderSummary() {
       const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
       html += `
-        <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOption.id}">
+        <div class="delivery-option js-delivery-option js-delivery-option-${matchingProduct.id}-${deliveryOption.id}" data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOption.id}">
           <input type="radio" ${isChecked ? "checked" : ""}
-            class="delivery-option-input"
+            class="delivery-option-input js-delivery-option-input-${matchingProduct.id}-${deliveryOption.id}"
             name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">
