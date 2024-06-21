@@ -9,7 +9,7 @@ export default function renderOrderSummary() {
   let cartSummaryHTML = ``;
 
   cart.forEach(cartItem => {
-    const {productId} = cartItem;
+    const { productId } = cartItem;
     const matchingProduct = getProduct(productId);
 
     const deliveryOptionId = cartItem.deliveryOptionId;
@@ -17,7 +17,7 @@ export default function renderOrderSummary() {
     const dateString = calculateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
-      <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
+      <div class="cart-item-container js-cart-item-container-${matchingProduct.id} js-cart-item-container">
         <div class="delivery-date">
           Delivery date: ${dateString}
         </div>
@@ -33,7 +33,7 @@ export default function renderOrderSummary() {
             <div class="product-price">
               $${formatCurrency(matchingProduct.priceCents)}
             </div>
-            <div class="product-quantity">
+            <div class="product-quantity js-product-quantity-${matchingProduct.id}">
               <span>
                 Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
               </span>
@@ -42,7 +42,7 @@ export default function renderOrderSummary() {
               </span>
               <input class="quantity-input js-quantity-input-${matchingProduct.id}">
               <span class="save-quantity-link js-save-link link-primary" data-product-id=${matchingProduct.id}>Save</span>
-              <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
+              <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${matchingProduct.id}" data-product-id="${matchingProduct.id}">
                 Delete
               </span>
             </div>
@@ -61,7 +61,7 @@ export default function renderOrderSummary() {
 
   // an html generation for the delivery options section
   function deliveryOptionsHTML(matchingProduct, cartItem) {
-    let html = ""; 
+    let html = "";
 
     deliveryOptions.forEach(deliveryOption => {
       const dateString = calculateDeliveryDate(deliveryOption);
@@ -85,7 +85,7 @@ export default function renderOrderSummary() {
         </div>
       `
     });
-  return html;
+    return html;
   }
 
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
@@ -93,7 +93,7 @@ export default function renderOrderSummary() {
   // event listeners for delete links
   document.querySelectorAll(".js-delete-link").forEach(link => {
     link.addEventListener("click", () => {
-      const {productId} = link.dataset;
+      const { productId } = link.dataset;
       removeFromCart(productId);
       updateCartQuantity();
       renderOrderSummary();
@@ -111,7 +111,7 @@ export default function renderOrderSummary() {
   // event listeners for update links
   document.querySelectorAll(".js-update-link").forEach(link => {
     link.addEventListener("click", () => {
-      const {productId} = link.dataset;
+      const { productId } = link.dataset;
       document.querySelector(`.js-cart-item-container-${productId}`).classList.add("is-editing-quantity");
     });
   });
@@ -136,7 +136,7 @@ export default function renderOrderSummary() {
 
   // event listeners for save links
   document.querySelectorAll(".js-save-link").forEach(link => {
-    const {productId} = link.dataset;
+    const { productId } = link.dataset;
     link.addEventListener("click", () => {
       eventListener(productId);
     });
@@ -151,7 +151,7 @@ export default function renderOrderSummary() {
   // event listeners for delivery options
   document.querySelectorAll(".js-delivery-option").forEach(elem => {
     elem.addEventListener("click", () => {
-      const {productId, deliveryOptionId} = elem.dataset;
+      const { productId, deliveryOptionId } = elem.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
       renderPaymentSummary();
