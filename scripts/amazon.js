@@ -86,7 +86,7 @@ document.querySelectorAll(".js-add-to-cart").forEach(button => {
   let timeoutId = {current: null};
   button.addEventListener('click', () => {
     const {productId} = button.dataset;
-    addToCart(productId);
+    addToCart(productId, +document.querySelector(`.js-quantity-selector-${productId}`).value);
     updateCartQuantity();
     showAndHideAddedMessage(productId, timeoutId);
   });

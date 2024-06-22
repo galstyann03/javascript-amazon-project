@@ -25,17 +25,15 @@ function Cart(localStorageKey) {
   
     
     // function for adding to cart by the selected quantity - tested
-    addToCart(productId) {
+    addToCart(productId, quantity) {
       const matchingItem = this.cartItems.find(cartItem => cartItem.productId === productId);
-  
-      const quantity = +document.querySelector(`.js-quantity-selector-${productId}`).value;
-  
+
       if (matchingItem) {
         matchingItem.quantity += quantity;
       } else {
         this.cartItems.push({
           productId,
-          quantity: 1,
+          quantity,
           deliveryOptionId: "1"
         });
       }
@@ -84,7 +82,9 @@ const cart = Cart("cart-oop");
 const businessCart = Cart("cart-business");
 
 
+
 cart.loadFromStorage();
+cart.addToCart("e43638ce-6aa0-4b85-b27f-e1d07eb678c6", -3);
 businessCart.loadFromStorage();
 
 console.log(cart);
