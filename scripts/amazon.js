@@ -1,13 +1,11 @@
-import { addToCart, calculateCartQuantity } from '../data/cart.js';
-import {products} from '../data/products.js';
-import formatCurrency from './utils/money.js';
-
+import { cart } from '../data/cart-class.js';
+import { products } from '../data/products.js';
 
 // generating HTML for the amazon page
 let productsHTML = ``;
 
 products.forEach(product => {
-   productsHTML += `
+  productsHTML += `
     <div class="product-container">
       <div class="product-image-container">
         <img class="product-image"
@@ -66,7 +64,7 @@ document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 // function for updating the quantity in the right-top corner of the amazon page
 function updateCartQuantity() {
-  const cartQuantity = calculateCartQuantity();
+  const cartQuantity = cart.calculateCartQuantity();
 
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
@@ -85,10 +83,10 @@ function showAndHideAddedMessage(productId, timeoutId) {
 
 // event listener for the buttons "Add to cart"
 document.querySelectorAll(".js-add-to-cart").forEach(button => {
-  let timeoutId = {current: null};
+  let timeoutId = { current: null };
   button.addEventListener('click', () => {
-    const {productId} = button.dataset;
-    addToCart(productId, +document.querySelector(`.js-quantity-selector-${productId}`).value);
+    const { productId } = button.dataset;
+    cart.addToCart(productId, +document.querySelector(`.js-quantity-selector-${productId}`).value);
     updateCartQuantity();
     showAndHideAddedMessage(productId, timeoutId);
   });

@@ -1,6 +1,6 @@
 import { validDeliveryOption } from "./deliveryOptions.js";
 
-class Cart {
+export class Cart {
   cartItems;
   #localStorageKey;
 
@@ -28,7 +28,7 @@ class Cart {
   }
 
   // function for adding to cart by the selected quantity - tested
-  addToCart(productId, quantity) {
+  addToCart(productId, quantity = 1) {
     const matchingItem = this.cartItems.find(cartItem => cartItem.productId === productId);
 
     if (matchingItem) {
@@ -78,10 +78,4 @@ class Cart {
   }
 }
 
-const cart = new Cart("cart-oop");
-const businessCart = new Cart("cart-business");
-
-cart.addToCart("e43638ce-6aa0-4b85-b27f-e1d07eb678c6", 1);
-
-console.log(cart);
-console.log(businessCart);
+export const cart = new Cart("cart");
