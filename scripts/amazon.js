@@ -1,11 +1,14 @@
 import { cart } from '../data/cart.js';
-import { products } from '../data/products.js';
+import { products, loadProducts } from '../data/products.js';
 
-// generating HTML for the amazon page
-let productsHTML = ``;
+loadProducts(renderProductsGrid);
 
-products.forEach(product => {
-  productsHTML += `
+function renderProductsGrid() {
+  // generating HTML for the amazon page
+  let productsHTML = ``;
+
+  products.forEach(product => {
+    productsHTML += `
     <div class="product-container">
       <div class="product-image-container">
         <img class="product-image"
@@ -57,37 +60,38 @@ products.forEach(product => {
       </button>
     </div>
   `;
-});
-
-// inserting the generated code in the HTML via DOM
-document.querySelector(".js-products-grid").innerHTML = productsHTML;
-
-// function for updating the quantity in the right-top corner of the amazon page
-function updateCartQuantity() {
-  const cartQuantity = cart.calculateCartQuantity();
-
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-}
-updateCartQuantity();
-
-// function for showing and hiding the "Added" message when clicking on the "Add to cart" button of the specified product
-function showAndHideAddedMessage(productId, timeoutId) {
-  const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
-  addedMessage.classList.add("added-to-cart-message");
-
-  clearTimeout(timeoutId.current);
-  timeoutId.current = setTimeout(() => {
-    addedMessage.classList.remove("added-to-cart-message");
-  }, 2000);
-}
-
-// event listener for the buttons "Add to cart"
-document.querySelectorAll(".js-add-to-cart").forEach(button => {
-  let timeoutId = { current: null };
-  button.addEventListener('click', () => {
-    const { productId } = button.dataset;
-    cart.addToCart(productId, +document.querySelector(`.js-quantity-selector-${productId}`).value);
-    updateCartQuantity();
-    showAndHideAddedMessage(productId, timeoutId);
   });
-});
+
+  // inserting the generated code in the HTML via DOM
+  document.querySelector(".js-products-grid").innerHTML = productsHTML;
+
+  // function for updating the quantity in the right-top corner of the amazon page
+  function updateCartQuantity() {
+    const cartQuantity = cart.calculateCartQuantity();
+
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+  }
+  updateCartQuantity();
+
+  // function for showing and hiding the "Added" message when clicking on the "Add to cart" button of the specified product
+  function showAndHideAddedMessage(productId, timeoutId) {
+    const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+    addedMessage.classList.add("added-to-cart-message");
+
+    clearTimeout(timeoutId.current);
+    timeoutId.current = setTimeout(() => {
+      addedMessage.classList.remove("added-to-cart-message");
+    }, 2000);
+  }
+
+  // event listener for the buttons "Add to cart"
+  document.querySelectorAll(".js-add-to-cart").forEach(button => {
+    let timeoutId = { current: null };
+    button.addEventListener('click', () => {
+      const { productId } = button.dataset;
+      cart.addToCart(productId, +document.querySelector(`.js-quantity-selector-${productId}`).value);
+      updateCartQuantity();
+      showAndHideAddedMessage(productId, timeoutId);
+    });
+  });
+}
