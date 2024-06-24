@@ -3,25 +3,38 @@ import renderPaymentSummary from "./checkout/paymentSummary.js";
 import { loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 
-// promises are better compared with callbacks, they flatten our code
 
-Promise.all([
-  loadProductsFetch(),
-  new Promise(resolve => {
+
+// handling async code using async await syntax
+async function loadPage() {
+  await loadProductsFetch();
+
+  const value = await new Promise(resolve => {
     loadCart(() => {
-      resolve();
+      resolve("value");
     });
-  })
+  });
 
-]).then(values => {
-  console.log(values);
   renderOrderSummary();
   renderPaymentSummary();
-});
+}
+loadPage();
+
+// promises are better compared with callbacks, they flatten our code
+// Promise.all([
+//   loadProductsFetch(),
+//   new Promise(resolve => {
+//     loadCart(() => {
+//       resolve();
+//     });
+//   })
+// ]).then(() => {
+//   renderOrderSummary();
+//   renderPaymentSummary();
+// });
 
 
 // nested callback handling of async code in not a good idea
-
 // loadProducts(() => {
 //   loadCart(() => {
 //     renderOrderSummary();
