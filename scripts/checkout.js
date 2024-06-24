@@ -7,13 +7,17 @@ import { loadCart } from "../data/cart.js";
 
 // handling async code using async await syntax
 async function loadPage() {
-  await loadProductsFetch();
-
-  const value = await new Promise(resolve => {
-    loadCart(() => {
-      resolve("value");
+  try {
+    await loadProductsFetch();
+  
+    const value = await new Promise(resolve => {
+      loadCart(() => {
+        resolve("value");
+      });
     });
-  });
+  } catch (error) {
+    console.log("unexpected error: Please try again later.");
+  }
 
   renderOrderSummary();
   renderPaymentSummary();
