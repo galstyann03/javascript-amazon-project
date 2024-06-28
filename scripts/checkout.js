@@ -18,25 +18,3 @@ async function loadPage() {
   renderPaymentSummary();
 }
 loadPage();
-
-// promises are better compared with callbacks, they flatten our code
-// Promise.all([
-//   loadProductsFetch(),
-//   new Promise(resolve => {
-//     loadCart(() => {
-//       resolve();
-//     });
-//   })
-// ]).then(() => {
-//   renderOrderSummary();
-//   renderPaymentSummary();
-// });
-
-
-// nested callback handling of async code in not a good idea -- callback hell
-// loadProducts(() => {
-//   loadCart(() => {
-//     renderOrderSummary();
-//     renderPaymentSummary();
-//   });
-// });
