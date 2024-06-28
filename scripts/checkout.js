@@ -3,8 +3,6 @@ import renderPaymentSummary from "./checkout/paymentSummary.js";
 import { loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 
-
-
 // handling async code using async await syntax
 async function loadPage() {
   try {
