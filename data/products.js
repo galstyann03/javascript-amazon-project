@@ -69,21 +69,25 @@ export class Appliance extends Product {
 
 export let products = [];
 
-// code for loading products using fetch API and promises
-export function loadProductsFetch() {
-  const promise = fetch("https://supersimplebackend.dev/products").then(response => {
-    return response.json();
-  }).then(productsData => {
+// code for loading products using fetch API
+export async function loadProductsFetch() {
+  try {
+    const response = await fetch("https://supersimplebackend.dev/products");
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+    const productsData = await response.json();
+    console.log(productsData);
     products = productsData.map(productDetails => {
-      if (productDetails.type === "clothing") return new Clothing(productDetails);
-      if (productDetails.type === "appliance") return new Appliance(productDetails);
+      if (productDetails.keywords.includes("apparel")) return new Clothing(productDetails);
+      if (productDetails.keywords.includes("appliances")) return new Appliance(productDetails);
       return new Product(productDetails);
     });
-    console.log("load products");
-  }).catch(error => {
-    console.log("unexpected error: Please try again later.")
-  });
-  return promise;
+
+    console.log("Products loaded successfully.")
+  } catch (error) {
+    console.error("Unexpected error:", error.message);
+    throw error;
+  }
 }
 
 // code for loading products from backend by http request 

@@ -37,7 +37,7 @@ export function calculateDeliveryDate(deliveryOption) {
 
 // function for checking the weekend days for skipping them 
 function isWeekend(date) {
-  return date.format("dddd") === "Saturday" || date.format("dddd") === "Sunday";
+  return date.day() === 0 || date.day() === 6;
 }
 
 // function that checks if the deliveryOptionId exist

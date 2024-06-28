@@ -93,8 +93,12 @@ export const cart = new Cart("cart");
 // }
 
 export async function loadCartFetch() {
-  const response = await fetch("https://supersimplebackend.dev/cart");
-  const text = await response.text();
-  console.log(text);
-  return text;
+  try {
+    const response = await fetch("https://supersimplebackend.dev/cart");
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    console.log("Cart loaded successfully.");
+  } catch (error) {
+    console.error("Unexpected error:", error.message);
+    throw error;
+  }
 }

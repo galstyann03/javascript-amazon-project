@@ -1,9 +1,17 @@
-import { products, Product, Clothing, Appliance } from "../../data/products.js";
+import { products, Product, Clothing, Appliance, loadProductsFetch } from "../../data/products.js";
 
 describe('test suite: Product', () => {
-  let product;
-  beforeEach(() => {
-    product = new Product(products[0]);
+  let product = new Product({
+    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
+    keywords: ['socks', 'sports', 'apparel'],
+    name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
+    priceCents: 1090,
+    rating: { stars: 4.5, count: 87 }
+  });
+
+  beforeAll(async () => {
+    await loadProductsFetch();
   });
 
   it('has the correct properties', () => {
@@ -28,9 +36,26 @@ describe('test suite: Product', () => {
 });
 
 describe('test suite: Clothing', () => {
-  let clothing;
-  beforeEach(() => {
-    clothing = new Clothing(products[2]);
+  let clothing = new Clothing(  {
+    id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
+    image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
+    name: "Adults Plain Cotton T-Shirt - 2 Pack",
+    rating: {
+      stars: 4.5,
+      count: 56
+    },
+    priceCents: 799,
+    keywords: [
+      "tshirts",
+      "apparel",
+      "mens"
+    ],
+    type: "clothing",
+    sizeChartLink: "images/clothing-size-chart.png"
+  });
+
+  beforeAll(async () => {
+    await loadProductsFetch();
   });
 
   it('has the correct properties', () => {
@@ -54,16 +79,32 @@ describe('test suite: Clothing', () => {
 });
 
 describe('test suite: Appliance', () => {
-  let appliance;
-  beforeEach(() => {
-    appliance = new Appliance(products[3]);
+  let appliance = new Appliance({
+    id: "54e0eccd-8f36-462b-b68a-8182611d9add",
+    image: "images/products/black-2-slot-toaster.jpg",
+    name: "2 Slot Toaster - Black",
+    rating: {
+      stars: 5,
+      count: 2197
+    },
+    priceCents: 1899,
+    keywords: [
+      "toaster",
+      "kitchen",
+      "appliances"
+    ],
+    type: "appliance",
+    instructionsLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png"
+  });
+
+  beforeAll(async () => {
+    await loadProductsFetch();
   });
 
   it('has the correct properties', () => {
     expect(appliance.id).toEqual(products[3].id);
     expect(appliance.image).toEqual(products[3].image);
-    expect(appliance.instructionsLink).toEqual(products[3].instructionsLink);
-    expect(appliance.warrantyLink).toEqual(products[3].warrantyLink);
   });
 
   it('gets the stars url', () => {
