@@ -1,9 +1,11 @@
 import { cart } from '../data/cart.js';
-import { products, loadProducts } from '../data/products.js';
+import { products, loadProductsFetch } from '../data/products.js';
 
-loadProducts(renderProductsGrid);
+renderProductsGrid();
 
-function renderProductsGrid() {
+async function renderProductsGrid() {
+  await loadProductsFetch();
+
   // generating HTML for the amazon page
   let productsHTML = ``;
 
