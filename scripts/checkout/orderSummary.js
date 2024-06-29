@@ -1,7 +1,7 @@
 import { cart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import formatCurrency from "../utils/money.js";
-import { calculateDeliveryDate, deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js";
+import { deliveryService } from "../../data/deliveryOptions.js";
 import renderPaymentSummary from "./paymentSummary.js";
 
 // generating HTML for checkout page - tested
@@ -13,8 +13,8 @@ export default function renderOrderSummary() {
     const matchingProduct = getProduct(productId);
 
     const deliveryOptionId = cartItem.deliveryOptionId;
-    const deliveryOption = getDeliveryOption(deliveryOptionId);
-    const dateString = calculateDeliveryDate(deliveryOption);
+    const deliveryOption = deliveryService.getDeliveryOption(deliveryOptionId);
+    const dateString = deliveryService.calculateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
       <div class="cart-item-container js-cart-item-container-${matchingProduct.id} js-cart-item-container">
@@ -63,8 +63,8 @@ export default function renderOrderSummary() {
   function deliveryOptionsHTML(matchingProduct, cartItem) {
     let html = "";
 
-    deliveryOptions.forEach(deliveryOption => {
-      const dateString = calculateDeliveryDate(deliveryOption);
+    deliveryService.deliveryOptions.forEach(deliveryOption => {
+      const dateString = deliveryService.calculateDeliveryDate(deliveryOption);
       const priceString = deliveryOption.priceCents === 0 ? "FREE" : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
       const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
@@ -90,23 +90,23 @@ export default function renderOrderSummary() {
 
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
+  // function that updates the quantity showed at the top of the page 
+  function updateCartQuantityDisplay() {
+    const cartQuantity = cart.getCartQuantity();
+    document.querySelector(".js-return-to-home-link").innerHTML = `${cartQuantity} items`;
+  }
+  updateCartQuantityDisplay();
+
   // event listeners for delete links
   document.querySelectorAll(".js-delete-link").forEach(link => {
     link.addEventListener("click", () => {
       const { productId } = link.dataset;
       cart.removeFromCart(productId);
-      updateCartQuantity();
+      updateCartQuantityDisplay();
       renderOrderSummary();
       renderPaymentSummary();
     });
   });
-
-  // function that updates the quantity showed at the top of the page 
-  function updateCartQuantity() {
-    const cartQuantity = cart.calculateCartQuantity();
-    document.querySelector(".js-return-to-home-link").innerHTML = `${cartQuantity} items`;
-  }
-  updateCartQuantity();
 
   // event listeners for update links
   document.querySelectorAll(".js-update-link").forEach(link => {
@@ -129,7 +129,7 @@ export default function renderOrderSummary() {
 
     document.querySelector(`.js-cart-item-container-${productId}`).classList.remove("is-editing-quantity");
 
-    updateCartQuantity();
+    updateCartQuantityDisplay();
     renderOrderSummary();
     renderPaymentSummary();
   }

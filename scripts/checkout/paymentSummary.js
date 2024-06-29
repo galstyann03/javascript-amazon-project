@@ -1,5 +1,5 @@
 import { cart } from "../../data/cart.js";
-import { getDeliveryOption } from "../../data/deliveryOptions.js";
+import { deliveryService } from "../../data/deliveryOptions.js";
 import { addOrder } from "../../data/orders.js";
 import { getProduct } from "../../data/products.js";
 import formatCurrency from "../utils/money.js";
@@ -13,7 +13,7 @@ export default function renderPaymentSummary() {
     const product = getProduct(cartItem.productId);
     productPriceCents += product.priceCents * cartItem.quantity;
 
-    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
+    const deliveryOption = deliveryService.getDeliveryOption(cartItem.deliveryOptionId);
     shippingPriceCents += deliveryOption.priceCents;
   });
 
@@ -28,7 +28,7 @@ export default function renderPaymentSummary() {
     </div>
 
     <div class="payment-summary-row">
-      <div>Items (${cart.calculateCartQuantity()}):</div>
+      <div>Items (${cart.getCartQuantity()}):</div>
       <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
     </div>
 

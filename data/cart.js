@@ -1,4 +1,4 @@
-import { validDeliveryOption } from "./deliveryOptions.js";
+import { deliveryService } from "./deliveryOptions.js";
 
 export class Cart {
   cartItems;
@@ -51,10 +51,15 @@ export class Cart {
   }
 
   // function to calculate the cart quantity
-  calculateCartQuantity() {
+  #calculateCartQuantity() {
     return this.cartItems.reduce((acc, cartItem) => {
       return acc + cartItem.quantity;
     }, 0);
+  }
+
+  // function accessor for cart quantity
+  getCartQuantity() {
+    return this.#calculateCartQuantity();
   }
 
   // function for updating the product quantity to new one 
@@ -71,7 +76,7 @@ export class Cart {
   updateDeliveryOption(productId, deliveryOptionId) {
     const product = this.cartItems.find(cartItem => cartItem.productId === productId);
 
-    if (!product || !validDeliveryOption(deliveryOptionId)) return;
+    if (!product || !deliveryService.validDeliveryOption(deliveryOptionId)) return;
 
     product.deliveryOptionId = deliveryOptionId;
     this.#saveToStorage();

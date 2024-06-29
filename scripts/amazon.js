@@ -68,12 +68,12 @@ async function renderProductsGrid() {
   document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
   // function for updating the quantity in the right-top corner of the amazon page
-  function updateCartQuantity() {
-    const cartQuantity = cart.calculateCartQuantity();
+  function updateCartQuantityDisplay() {
+    const cartQuantity = cart.getCartQuantity();
 
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
   }
-  updateCartQuantity();
+  updateCartQuantityDisplay();
 
   // function for showing and hiding the "Added" message when clicking on the "Add to cart" button of the specified product
   function showAndHideAddedMessage(productId, timeoutId) {
@@ -92,7 +92,7 @@ async function renderProductsGrid() {
     button.addEventListener('click', () => {
       const { productId } = button.dataset;
       cart.addToCart(productId, +document.querySelector(`.js-quantity-selector-${productId}`).value);
-      updateCartQuantity();
+      updateCartQuantityDisplay();
       showAndHideAddedMessage(productId, timeoutId);
     });
   });
